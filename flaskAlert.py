@@ -16,8 +16,12 @@ app.config['BASIC_AUTH_FORCE'] = True
 app.config['BASIC_AUTH_USERNAME'] = 'XXXUSERNAME'
 app.config['BASIC_AUTH_PASSWORD'] = 'XXXPASSWORD'
 
+# Add my proxy
+proxy = telegram.utils.request.Request(proxy_url='socks5://127.0.0.1:10808')
+bot = telegram.Bot(token="botToken", request=proxy)
+
 # Bot token, change it!
-bot = telegram.Bot(token="botToken")
+#bot = telegram.Bot(token="botToken")
 
 @app.route('/alert', methods = ['POST'])
 def postAlertmanager():
