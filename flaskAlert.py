@@ -52,6 +52,16 @@ def postAlertmanager():
         bot.sendMessage(chat_id=chatID, text="Error to read json: "+str(error))
         app.logger.info("\t%s",error)
         return "Alert fail", 200
+    
+@app.route('/callback', methods = ['POST'])
+def postAlertmanager_callback():
+    print(request.get_data())
+    message = json.loads(request.get_data())
+    app.logger.info("\t%s",request.get_data())
+    message = json.dumps(message)
+    bot.sendMessage(chat_id=chatID, text=message.encode('utf-8').decode("unicode_escape"))
+    return message.encode('utf-8').decode("unicode_escape")
+#    return "Alert callback OK", 200    
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
