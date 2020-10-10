@@ -4,6 +4,8 @@ from flask import Flask
 from flask import request
 from flask_basicauth import BasicAuth
 
+import urllib
+
 app = Flask(__name__)
 app.secret_key = 'lAlAlA123'
 basic_auth = BasicAuth(app)
@@ -48,6 +50,18 @@ def postAlertmanager():
         bot.sendMessage(chat_id=chatID, text="Error to read json: "+str(error))
         app.logger.info("\t%s",error)
         return "Alert fail", 200
+
+@app.route('/callback', methods = ['POST'])
+   """阿里云报警webhook，尚未很好优化"""
+def postAlertmanager_callback():
+    print(request.get_data())
+    message = request.get_data()
+    app.logger.info("\t%s",request.get_data())
+    message = message.decode('utf-8') + "\n"
+    app.logger.info("\t%s",message)
+    bot.sendMessage(chat_id=chatID, text=urllib.parse.unquote(message),parse_mode='HTML')
+    return urllib.parse.unquote(message,encoding='utf-8', errors='replace')     
+    
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
