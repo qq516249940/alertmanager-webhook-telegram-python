@@ -52,8 +52,8 @@ def postAlertmanager():
         return "Alert fail", 200
 
 @app.route('/callback', methods = ['POST'])
-   """阿里云报警webhook，尚未很好优化"""
 def postAlertmanager_callback():
+    """阿里云报警webhook，尚未很好优化"""
     print(request.get_data())
     message = request.get_data()
     app.logger.info("\t%s",request.get_data())
